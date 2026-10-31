@@ -1,0 +1,9 @@
+Shredded Lettuce,480,04/23/26
+Cheese,500,04/23/26
+Chicken,300,04/23/26
+Shredded Lettuce,480,05/23/26
+Cheese,500,05/23/26
+Chicken,300,05/23/26
+Shredded Lettuce,500,05/24/26
+Cheese,460,05/24/26
+Chicken,400,05/24/26

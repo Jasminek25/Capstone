@@ -1,0 +1,620 @@
+# Root widget that controls all screens
+#:kivy 2.0
+
+<RoundedButton@Button>:
+    background_color: 0.27, 0.55, 0.27, 1  # Darker Green
+    background_normal: ''
+    canvas.before:
+        Color:
+            rgba: self.background_color
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [15]
+
+ScreenManager:
+    LoginScreen:
+    CreateAccountScreen:
+    HomeScreen:
+
+
+# ---------------- LOGIN SCREEN UI ----------------
+<LoginScreen>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    
+    BoxLayout:
+        orientation: "vertical"     # Stack widgets vertically
+        padding: 40                 # Space around edges
+        spacing: 15                 # Space between widgets
+
+        Label:
+            text: '[b]Login[/b]'
+            font_size: 50
+            markup: True
+
+        TextInput:
+            id: username            # ID used in Python file
+            hint_text: "Username"
+            multiline: False
+
+        TextInput:
+            id: password
+            hint_text: "Password"
+            password: True          # Hides text for security
+            multiline: False
+
+        RoundedButton:
+            text: "Login"
+            on_press: root.login()  # Call login() in LoginScreen class
+
+        RoundedButton:
+            text: "Create New Account"
+            on_press: app.root.current = "create"
+
+        Label:
+            text: root.message      # Displays login error messages
+            color: 1, 0, 0, 1        # Red text
+
+
+# ---------------- CREATE ACCOUNT SCREEN UI ----------------
+<CreateAccountScreen>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    
+    BoxLayout:
+        orientation: "vertical"
+        padding: 40
+        spacing: 15
+
+        Label:
+            text: '[b]Create Account[/b]'
+            font_size: 50
+            markup: True
+
+        TextInput:
+            id: new_name
+            hint_text: "Full Name"
+            multiline: False
+        
+        TextInput:
+            id: new_email
+            hint_text: "Email"
+            multiline: False
+
+        TextInput:
+            id: new_username
+            hint_text: "New Username"
+            multiline: False
+
+        TextInput:
+            id: new_password
+            hint_text: "New Password"
+            password: True
+            multiline: False
+
+        TextInput:
+            id: new_business_name
+            hint_text: "Business Name"
+            multiline: False
+        
+        TextInput:
+            id: new_business_type
+            hint_text: "Business Type"
+            multiline: False
+
+        RoundedButton:
+            text: "Create Account"
+            on_press: root.create_account()
+
+        RoundedButton:
+            text: "Back to Login"
+            on_press: app.root.current = "login"
+
+        Label:
+            text: root.message
+            color: 0, 1, 0, 1        # Green text for success messages
+
+
+# ---------------- HOME SCREEN UI ----------------
+<HomeScreen>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    
+    BoxLayout:
+        orientation: "vertical"
+        padding: 40
+        spacing: 6
+
+        Label:
+            text: '[b]Welcome To [color=44BB44]SmartSave[/color][/b]'
+            font_size: 80
+            markup: True
+
+        Label:
+            text: "Action Items:"
+            font_size: 45
+        
+        RoundedButton:
+            text: "Update About To Expire Inventory"
+            on_press: app.root.current = "update_expired_inventory"
+        
+        RoundedButton:
+            text: "Share Excess Food"
+            on_press: app.root.current = "food_share"
+        
+        RoundedButton:
+            text: "Future Usage Management"
+            on_press: app.root.current = "future_projection"
+        
+        Widget:
+            size_hint_y: None
+            height: '6dp'
+
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 6
+            size_hint_y: None
+            height: '72dp'
+
+            RoundedButton:
+                text: "Intelligent Inventory Management"
+                on_press: app.root.current = "inventory_main"
+
+            RoundedButton:
+                text: "Current and Future Usage"
+                on_press: app.root.current = "usage_management"
+            
+
+            RoundedButton:
+                text: "Excess Food Management"
+                on_press: app.root.current = "food_share"
+        
+        Widget:
+            size_hint_y: None
+            height: '6dp'
+
+        RoundedButton:
+            text: "Log Out"
+            on_press: app.root.current = "login"
+
+
+# ---------------- INVENTORY SCREEN UI ----------------
+<InventoryScreen>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    
+    BoxLayout:
+        spacing: 6
+        orientation: "vertical"
+        padding: 40
+
+        Label:
+            text: '[b]Inventory[/b]'
+            font_size: 50
+            markup: True
+
+        RoundedButton:
+            text: "See Inventory"
+            on_press: app.root.current = "see_inventory"
+
+        RoundedButton:
+            text: "Add Inventory"
+            on_press: app.root.current = "add_inventory"
+        
+        RoundedButton:
+            text: "Update about to Expire Inventory"
+            on_press: app.root.current = "update_expired_inventory"
+        
+        RoundedButton:
+            text: "Back"
+            size_hint_y: None
+            height: '40dp'
+            on_press: app.root.current = "home"
+
+# ---------------- ADD INVENTORY SCREEN UI ----------------
+<AddInventoryScreen>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    
+    BoxLayout:
+        orientation: "vertical"
+        padding: 40
+        spacing: 6
+
+        Label:
+            text: '[b]Add Inventory[/b]'
+            font_size: 60
+            markup: True
+
+        TextInput:
+            id: new_ingredient
+            hint_text: "Ingredient"
+            multiline: False
+
+        TextInput:
+            id: new_amount_bought
+            hint_text: "Amount Bought (oz)"
+            multiline: False
+
+        TextInput:
+            id: new_last_bought
+            hint_text: "Last Bought (Purchase Date)"
+            multiline: False
+
+        TextInput:
+            id: new_expiry_date
+            hint_text: "Expiry Date (Actual Expiry)"
+            multiline: False
+        
+        RoundedButton:
+            text: "Submit"
+            on_press: root.submit_inventory()
+        
+        RoundedButton:
+            text: "Back"
+            on_press: app.root.current = "inventory_main"
+        
+        Label:
+            text: root.message
+            color: 0, 1, 0, 1
+
+
+# ---------------- SEE INVENTORY SCREEN UI ----------------
+<SeeInventoryScreen>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    
+    BoxLayout:
+        orientation: "vertical"
+        padding: 20
+        spacing: 10
+
+        Label:
+            text: '[b]Inventory List[/b]'
+            font_size: 50
+            markup: True
+
+        ScrollView:
+            do_scroll_x: False
+
+            GridLayout:
+                id: inventory_grid
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: 6
+                padding: 6
+
+        RoundedButton:
+            text: "Back"
+            size_hint_y: None
+            height: '40dp'
+            on_press: app.root.current = "inventory_main"
+
+
+# ---------------- UPDATE EXPIRY SCREEN UI ----------------
+<UpdateInventoryExpiryScreen>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    
+    BoxLayout:
+        orientation: "vertical"
+        padding: 20
+        spacing: 10
+
+        Label:
+            text: '[b]Items Nearing Expiry[/b]'
+            font_size: 50
+            markup: True
+
+        ScrollView:
+            do_scroll_x: False
+
+            GridLayout:
+                id: expiry_grid
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: 6
+                padding: 6
+
+        RoundedButton:
+            text: "Back"
+            size_hint_y: None
+            height: '40dp'
+            on_press: app.root.current = "inventory_main"
+
+# ---------------- USAGE MANAGEMENT MAIN SCREEN UI ----------------
+<UsageManagementScreen>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    
+    BoxLayout:
+        orientation: "vertical"
+        padding: 40
+        spacing: 20
+
+        Label:
+            text: '[b]Usage Management[/b]'
+            font_size: 50
+            markup: True
+
+        RoundedButton:
+            text: "Daily Usage Report"
+            on_press: app.root.current = "usage_report"
+        
+        RoundedButton:
+            text: "Usage Charts"
+            on_press: app.root.current = "usage_charts"
+        
+        RoundedButton:
+            text: "Future Usage Projection (AI Symbol)"
+            on_press: app.root.current = "future_projection"
+        
+        RoundedButton:
+            text: "Back"
+            size_hint_y: None
+            height: '40dp'
+            on_press: app.root.current = "home"
+
+# ---------------- USAGE REPORT SCREEN UI ----------------
+<UsageReport>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    
+    BoxLayout:
+        orientation: "vertical"
+        padding: 20
+        spacing: 10
+
+        Label:
+            text: '[b]Daily Usage Report[/b]'
+            font_size: 50
+            markup: True
+
+        ScrollView:
+            do_scroll_x: False
+
+            GridLayout:
+                id: usage_grid
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: 6
+                padding: 6 
+
+        RoundedButton:
+            text: "Back"
+            size_hint_y: None
+            height: '40dp'
+            on_press: app.root.current = "usage_management"
+
+
+# ---------------- USAGE CHARTS SCREEN UI ----------------
+<UsageChartsScreen>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 15
+
+        Label:
+            text: '[b]Usage Charts[/b]'
+            font_size: 50
+            size_hint_y: None
+            height: '60dp'
+            markup: True
+
+        Label:
+            text: 'Daily ingredient usage over time. This chart shows the quantity in ounces of each ingredient used on each day.'
+            font_size: 30
+            size_hint_y: None
+            height: '80dp'
+            text_size: self.width, None
+
+        BoxLayout:
+            size_hint_y: None
+            height: '50dp'
+            spacing: 10
+            
+            Label:
+                text: 'Filter by Month:'
+                size_hint_x: 0.3
+                size_hint_y: None
+                height: '50dp'
+            
+            Spinner:
+                id: month_spinner
+                text: 'All Months'
+                values: ('All Months', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December')
+                size_hint_x: 0.7
+                size_hint_y: None
+                height: '50dp'
+                on_text: root.on_month_selected(self.text)
+
+        AnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'center'
+
+            Image:
+                id: chart_image
+                allow_stretch: True
+                keep_ratio: True
+                size_hint_y: 1
+                size_hint_x: 1
+
+        BoxLayout:
+            size_hint_y: None
+            height: '50dp'
+            spacing: 30
+            size_hint_x: None
+            width: self.parent.width
+            pos_hint: {'center_x': 0.5}
+
+            Widget:
+                size_hint_x: 0.5
+
+            RoundedButton:
+                size_hint_x: 0.25
+                text: 'Refresh'
+                on_press: root.on_pre_enter()
+
+            RoundedButton:
+                size_hint_x: 0.25
+                text: 'Back'
+                on_press: app.root.current = 'usage_management'
+
+            Widget:
+                size_hint_x: 0.5
+
+
+<FutureUsageProjectionScreen>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 10
+
+        Label:
+            text: '[b]Future Usage Progression[/b]'
+            markup: True
+            font_size: 50
+            size_hint_y: None
+            height: '60dp'
+
+        Image:
+            id: projection_chart_image
+            size_hint_y: 0.45
+            allow_stretch: True
+            keep_ratio: True
+
+        RoundedButton:
+            text: 'Run AI Agent Report'
+            size_hint_y: None
+            height: '48dp'
+            on_press: root.run_ai_agent()
+
+        ScrollView:
+            size_hint_y: 0.45
+            Label:
+                id: report_label
+                text: 'Press the button above to generate an AI report.'
+                text_size: self.width, None
+                size_hint_y: None
+                height: self.texture_size[1]
+                valign: 'top'
+                padding: 10, 10
+
+        RoundedButton:
+            text: 'Back'
+            size_hint_y: None
+            height: '40dp'
+            on_press: app.root.current = 'usage_management'
+
+
+# ---------------- FOOD SHARE SCREEN UI ----------------
+<FoodShareScreen>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    
+    BoxLayout:
+        orientation: "vertical"
+        padding: 20
+        spacing: 10
+
+        Label:
+            text: '[b]Food Share[/b]'
+            font_size: 50
+            markup: True
+
+        TextInput:
+            id: new_items
+            hint_text: "Items to distribute"
+            multiline: False
+
+        TextInput:
+            id: new_location
+            hint_text: "Where to distribute items"
+            multiline: False
+        
+        TextInput:
+            id: new_location_email
+            hint_text: "Email address of location"
+            multiline: False
+        
+        TextInput:
+            id: new_driver
+            hint_text: "Assign a driver"
+            multiline: False
+        
+        TextInput:
+            id: new_time
+            hint_text: "Time which driver will arrive at location"
+            multiline: False
+        
+        RoundedButton:
+            text: "Submit"
+            on_press: root.submit_food_share()
+
+        RoundedButton:
+            text: "Back"
+            size_hint_y: None
+            height: '40dp'
+            on_press: app.root.current = "home"
+
+        Label:
+            text: root.message
+            color: 0, 1, 0, 1
